@@ -1,0 +1,39 @@
+body {
+  margin: 2em;
+}
+
+h1 {
+  margin-top: 2em;
+  font-size: 16px !important;
+}
+.input, .select select, .textarea {
+  background-color: #282f2f;
+  border-color: #5e6d6f;
+  border-radius: .4em;
+  color: #fff;
+}
+.select.is-success select {
+  border-color: #5e6d6f;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px
+}
+
+.file-name {
+  border-width: 1px 1px 1px 1px;
+  border-radius: 0.4em !important;
+}
+
+.events {
+  margin: 2em;
+}
+
+.tables {
+  display: flex;
+  justify-content: center;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+ 
+ .tables::-webkit-scrollbar {
+  display: none;
+}

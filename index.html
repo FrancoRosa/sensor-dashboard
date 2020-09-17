@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algoritmos</title>
+  <link rel="stylesheet" href="./css/darkly.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/index.js" charset="utf-8"></script>
+  <script src="./js/moment.js" charset="utf-8"></script>
+</head>
+<body>
+  <h1 class="heading has-text-centered"> Algoritmos de orden </h2>
+  <hr>
+  <div class="columns">
+    <div class="column is-8">
+      <div class="task-details" >
+        <nav class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Archivo</p>
+              <div id="file-upload" class="file has-name">
+                <label class="file-label">
+                  <input class="file-input" type="file" name="resume" accept=".csv">
+                  <span class="file-name">
+                    No file uploaded
+                  </span>
+                </label>
+                
+              </div>
+              <p class="help is-danger file-error"></p>
+            </div>
+          </div>
+        
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Algoritmo</p>
+              <div class="control">
+                <div class="select is-success">
+                  <select class="sort-method">
+                    <option>1.Insercion</option>
+                    <option>2.Shell</option>
+                    <option>3.Bubble</option>
+                    <option>4.Merge</option>
+                    <option>5.QuickSort</option>
+                    <option>6.Bucket</option>
+                    <option>7.Radix</option>
+                    <option>8.Heap</option>
+                    <option>8.Count</option>
+                    <option>10.Bin</option>
+                    <option>11.RandomiseSelection</option>
+                    <option>12.Stooge</option>
+                    <option>Bonus.PythonSort</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Muestras</p>
+              <div class="control">
+                <input class="input sample-volume" type="number" value="100">
+              </div>
+            </div>
+          </div>
+          
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Python</p>
+              <div class="control is-fetching">
+                <button class="button is-link is-outlined">Ordenar</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+      </div>
+      <hr>
+      <div class="task-in-progress" >
+        <nav class="level is-mobile">
+          
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Tiempo</p>
+              <p class="title has-text-link">
+                <span class="min">00</span> : 
+                <span class="sec">00</span> .
+                <span class="millis">000</span>
+              </p>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <hr>
+      <p class="heading has-text-centered">Logs</p>
+      <div class="events ">
+      </div>
+    </div>
+    
+    
+    <div class="column is-4">
+      <p class="heading has-text-centered">Resultados</p>
+      <div class="tables table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th> Indice </th>
+              <th> Entrada </th>
+              <th> Salida </th>
+            </tr>
+          </thead>
+          <tbody class="table-body">
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
