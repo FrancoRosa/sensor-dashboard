@@ -1,6 +1,7 @@
 import { Switch, Redirect, Route } from 'react-router-dom';
 import { StoreProvider, createStore } from 'easy-peasy';
 import model from '../js/model'
+import Login from './Login';
 
 const store = createStore(model)
 

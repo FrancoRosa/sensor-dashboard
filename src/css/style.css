@@ -225,3 +225,7 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.login {
+  height: 100vh;
+}

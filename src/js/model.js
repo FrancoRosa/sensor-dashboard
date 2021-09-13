@@ -1,13 +1,8 @@
 import { action } from "easy-peasy";
 
 export default {
-  user: "",
-  setUser: action((state, user) => {
-    state.user = user;
-  }),
-
-  pass: "",
-  setPass: action((state, pass) => {
-    state.pass = pass;
+  authenticated: false,
+  setAuthenticated: action((state, authenticated) => {
+    state.authenticated = authenticated;
   }),
 };
