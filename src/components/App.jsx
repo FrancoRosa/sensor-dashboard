@@ -10,12 +10,10 @@ const App = () => {
   return (
     <StoreProvider store={store}>
       <Redirect exact from="/" to="/login" />
-      <div className="container">
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/home" component={Home} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/home" component={Home} />
+      </Switch>
     </StoreProvider>
   );
 };
