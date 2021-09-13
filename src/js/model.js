@@ -4,7 +4,7 @@ const nodesInit = [
   {
     id: "0000-0001",
     company: "J.P Morgan",
-    description: "Cleanig products",
+    description: "Cleaning products",
     lat: 29.87456,
     lng: -96.1234,
     address: "Lucas St. 404",
@@ -15,7 +15,7 @@ const nodesInit = [
   {
     id: "0000-0002",
     company: "CocaCola",
-    description: "Prutify products",
+    description: "Purify products",
     lat: 29.3234,
     lng: -96.4234,
     address: "Lucas St. 404",
@@ -37,7 +37,7 @@ const nodesInit = [
 ];
 
 export default {
-  authenticated: true,
+  authenticated: false,
   setAuthenticated: action((state, authenticated) => {
     state.authenticated = authenticated;
   }),

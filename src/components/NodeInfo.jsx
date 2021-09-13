@@ -22,19 +22,15 @@ const NodeInfo = ({ info }) => {
       </p>
       <p>
         <span className="has-text-weight-semibold">Description:</span>{" "}
-        {contactName} - {description}
+        {description}
       </p>
       <p>
-        <span className="has-text-weight-semibold">Address:</span> {contactName}{" "}
-        - {address}
+        <span className="has-text-weight-semibold">Address:</span> {address}
       </p>
       <p>
         <span className="has-text-weight-semibold">Last update:</span>{" "}
         {toDateTime(lastUpdate)}
       </p>
-      <a href={`/home/node/${id}`}>
-        <p className="has-text-primary has-text-weight-semibold">More ...</p>
-      </a>
     </div>
   );
 };

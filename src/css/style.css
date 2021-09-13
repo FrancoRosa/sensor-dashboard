@@ -233,3 +233,8 @@ body {
 .map {
   height: 90vh;
 }
+
+.more {
+  position: absolute;
+  bottom: 0;
+}

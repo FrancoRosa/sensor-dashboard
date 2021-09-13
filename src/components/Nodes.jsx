@@ -1,6 +1,7 @@
 import { useStoreState } from "easy-peasy";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { useState } from "react";
+import { useHistory } from "react-router";
 import NodeInfo from "./NodeInfo";
 
 const Nodes = ({ google }) => {
@@ -8,6 +9,7 @@ const Nodes = ({ google }) => {
   const [infoData, setInfoData] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
   const [activeMarker, setActiveMarker] = useState(null);
+  const history = useHistory();
 
   const svgMarker = (lastUpdate) => {
     let color = "white";
@@ -42,13 +44,22 @@ const Nodes = ({ google }) => {
             icon={svgMarker(node.lastUpdate)}
             title={node.company}
             onClick={onSelectedMarker}
-            onCloseClick={() => setShowInfo(false)}
+            onClose={() => setShowInfo(false)}
+            key={node.id}
           />
         ))}
         <InfoWindow visible={showInfo} marker={activeMarker}>
-          {showInfo && <NodeInfo info={infoData} />}
+          <>{showInfo && <NodeInfo info={infoData} />}</>
         </InfoWindow>
       </Map>
+      {showInfo && (
+        <button
+          className="button more m-1"
+          onClick={() => history.push(`/home/node/${infoData.id}`)}
+        >
+          More ...
+        </button>
+      )}
     </div>
   );
 };

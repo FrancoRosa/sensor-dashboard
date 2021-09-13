@@ -28,7 +28,7 @@ const NewNode = () => {
               ref={idContainer}
             />
             <Input
-              label="Contact Name"
+              label="Contact name"
               placeholder="John Smith"
               ref={contactNameContainer}
             />
@@ -62,8 +62,8 @@ const NewNode = () => {
               type="number"
             />
             <Input
-              label="Park St. PO 123. TX"
-              placeholder="J.P. Morgan"
+              label="Address"
+              placeholder="Park St. PO 123. TX"
               ref={addressContainer}
             />
           </div>

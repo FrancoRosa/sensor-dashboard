@@ -20,7 +20,10 @@ const Login = () => {
       test_user === userContainer.current.value &&
       test_pass === passContainer.current.value
     ) {
+      console.log("... welcome");
       setAuthenticated(true);
+    } else {
+      console.log("... wrong user or pass");
     }
   };
 
