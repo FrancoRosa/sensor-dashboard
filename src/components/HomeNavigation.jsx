@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { underScoreToSpace } from "../js/helpers";
 import { capitalize } from "../js/helpers";
 
 const HomeNavigation = () => {
-  const options = ["nodes", "new"];
+  const options = ["nodes", "new_node"];
   const { mode } = useParams();
   const [selection, setSelection] = useState(mode ? mode : options[0]);
 
@@ -20,7 +21,7 @@ const HomeNavigation = () => {
               onClick={() => setSelection(option)}
               to={`/home/${option}`}
             >
-              {capitalize(option)}
+              {capitalize(underScoreToSpace(option))}
             </Link>
           </li>
         ))}

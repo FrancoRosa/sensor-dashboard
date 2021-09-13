@@ -1,7 +1,7 @@
 import { Route, Switch } from "react-router-dom";
 import HomeNavigation from "./HomeNavigation";
-import Nodes from "./NewNode";
-import NewNode from "./Nodes";
+import NewNode from "./NewNode";
+import Nodes from "./Nodes";
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
         <div className="column p-4">
           <Switch>
             <Route path="/home/nodes" component={Nodes} />
-            <Route path="/home/new" component={NewNode} />
+            <Route path="/home/new_node" component={NewNode} />
           </Switch>
         </div>
       </div>

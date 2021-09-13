@@ -229,3 +229,7 @@ body {
 .login {
   height: 100vh;
 }
+
+.map {
+  height: 90vh;
+}
