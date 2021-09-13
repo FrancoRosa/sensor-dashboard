@@ -28,3 +28,13 @@ export const progress = (arr) => {
     sum(arr.map((p) => p.pulses))
   );
 };
+
+export const toDateTime = (timestamp) => {
+  const time = new Date(timestamp * 1000);
+  return time.toLocaleString("sv-SE");
+};
+
+export const toDate = (timestamp) => {
+  const time = new Date(timestamp * 1000);
+  return time.toLocaleString("sv-SE").split(" ")[0];
+};

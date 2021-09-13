@@ -1,20 +1,36 @@
 import { useStoreState } from "easy-peasy";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { useState } from "react";
+import NodeInfo from "./NodeInfo";
 
 const Nodes = ({ google }) => {
   const nodes = useStoreState((state) => state.nodes);
-  const [hovered, setHovered] = useState(null);
-  const [clicked, setClicked] = useState(null);
-  const svgMarker = (color) => ({
-    path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
-    fillColor: color,
-    fillOpacity: 0.6,
-    strokeWeight: 0,
-    rotation: 0,
-    scale: 2,
-    anchor: new google.maps.Point(15, 30),
-  });
+  const [infoData, setInfoData] = useState(null);
+  const [showInfo, setShowInfo] = useState(false);
+  const [activeMarker, setActiveMarker] = useState(null);
+
+  const svgMarker = (lastUpdate) => {
+    let color = "white";
+    if (lastUpdate < Date.now() / 1000 - 10 * 60) {
+      color = "green";
+    } else {
+      color = "red";
+    }
+    return {
+      path: google.maps.SymbolPath.CIRCLE,
+      fillColor: color,
+      fillOpacity: 0.6,
+      strokeWeight: 0,
+      rotation: 0,
+      scale: 10,
+    };
+  };
+
+  const onSelectedMarker = (props, marker, e) => {
+    setActiveMarker(marker);
+    setInfoData(props.position);
+    setShowInfo(true);
+  };
 
   return (
     <div className="container map">
@@ -23,21 +39,15 @@ const Nodes = ({ google }) => {
           <Marker
             position={node}
             name={node.company}
-            icon={svgMarker("green")}
-            label={hovered === node.id ? node.company : null}
-            title="title"
-            onMouseover={() => setHovered(node.id)}
-          >
-            <InfoWindow visible={true}>
-              <div className="card">
-                <p>
-                  Click on the map or drag the marker to select location where
-                  the incident occurred
-                </p>
-              </div>
-            </InfoWindow>
-          </Marker>
+            icon={svgMarker(node.lastUpdate)}
+            title={node.company}
+            onClick={onSelectedMarker}
+            onCloseClick={() => setShowInfo(false)}
+          />
         ))}
+        <InfoWindow visible={showInfo} marker={activeMarker}>
+          {showInfo && <NodeInfo info={infoData} />}
+        </InfoWindow>
       </Map>
     </div>
   );

@@ -12,6 +12,7 @@ const Home = () => {
           <Switch>
             <Route path="/home/nodes" component={Nodes} />
             <Route path="/home/new_node" component={NewNode} />
+            <Route path="/home" component={Nodes} />
           </Switch>
         </div>
       </div>
