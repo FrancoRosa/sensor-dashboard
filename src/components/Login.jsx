@@ -1,16 +1,19 @@
-import { useStoreActions } from "easy-peasy";
-import { useRef } from "react";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import { useEffect, useRef } from "react";
+import { useHistory } from "react-router";
 import logo from "../assets/logo.png";
 
 const Login = () => {
   const test_user = "user";
   const test_pass = "pass";
 
+  const authenticated = useStoreState((state) => state.authenticated);
   const setAuthenticated = useStoreActions(
     (actions) => actions.setAuthenticated
   );
   const userContainer = useRef("");
   const passContainer = useRef("");
+  const history = useHistory();
 
   const login = () => {
     if (
@@ -21,8 +24,14 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    if (authenticated) {
+      history.push("/home");
+    }
+  }, [authenticated]);
+
   return (
-    <div className="container is-flex is-flex-centered login">
+    <div className="is-flex is-flex-centered login">
       <div className="card">
         <div className="card-image">
           <figure className="image">

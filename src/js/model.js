@@ -1,7 +1,7 @@
 import { action } from "easy-peasy";
 
 export default {
-  authenticated: false,
+  authenticated: true,
   setAuthenticated: action((state, authenticated) => {
     state.authenticated = authenticated;
   }),
