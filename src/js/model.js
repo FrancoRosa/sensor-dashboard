@@ -42,4 +42,8 @@ export default {
     state.authenticated = authenticated;
   }),
   nodes: nodesInit,
+  node: {},
+  setNode: action((state, node) => {
+    state.node = node;
+  }),
 };

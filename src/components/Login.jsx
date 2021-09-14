@@ -1,5 +1,5 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import logo from "../assets/logo.png";
 
@@ -13,6 +13,7 @@ const Login = () => {
   );
   const userContainer = useRef("");
   const passContainer = useRef("");
+  const [message, setMessage] = useState("");
   const history = useHistory();
 
   const login = () => {
@@ -20,10 +21,12 @@ const Login = () => {
       test_user === userContainer.current.value &&
       test_pass === passContainer.current.value
     ) {
-      console.log("... welcome");
+      setMessage("");
       setAuthenticated(true);
+      console.log("... welcome");
     } else {
-      console.log("... wrong user or pass");
+      setMessage("Wrong password");
+      console.error("... wrong pass");
     }
   };
 
@@ -50,6 +53,7 @@ const Login = () => {
                 type="text"
                 placeholder="User"
                 ref={userContainer}
+                onFocus={() => setMessage("")}
               />
             </div>
           </div>
@@ -61,15 +65,17 @@ const Login = () => {
                 type="password"
                 placeholder="Password"
                 ref={passContainer}
+                onFocus={() => setMessage("")}
               />
             </div>
           </div>
         </div>
         <div className="card-footer">
-          <div className="card-footer-item">
+          <div className="card-footer-item is-flex-direction-column">
             <button className="button" onClick={login}>
               Log in
             </button>
+            <p class="help is-danger">{message}</p>
           </div>
         </div>
       </div>
