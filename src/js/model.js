@@ -1,28 +1,11 @@
 import { action } from "easy-peasy";
 
-const nodesInit = [
-  {
-    info: {
-      id: "",
-      company: "",
-      address: "",
-      contactName: "",
-      contactPhone: "",
-      description: "",
-      lat: "",
-      lng: "",
-    },
-    reservoirs: [],
-    notification: {},
-  },
-];
-
 export default {
   authenticated: false,
   setAuthenticated: action((state, authenticated) => {
     state.authenticated = authenticated;
   }),
-  nodes: nodesInit,
+  nodes: [],
   setNodes: action((state, nodes) => {
     state.nodes = nodes;
   }),

@@ -42,27 +42,32 @@ const Nodes = ({ google }) => {
   };
 
   useEffect(() => {
-    getNodes().then((res) => setNodes(res));
+    getNodes().then((res) => {
+      setNodes(res);
+      console.log(res);
+    });
   }, []);
 
   return (
     <div className="container map">
-      <Map google={google} initialCenter={nodes[0].info} zoom={9}>
-        {nodes.map((node) => (
-          <Marker
-            position={node.info}
-            name={node.info.company}
-            icon={svgMarker(node.info.lastUpdate)}
-            title={node.info.company}
-            onClick={onSelectedMarker}
-            onClose={() => setShowInfo(false)}
-            key={node.id}
-          />
-        ))}
-        <InfoWindow visible={showInfo} marker={activeMarker}>
-          <>{showInfo && <NodeInfo info={infoData} />}</>
-        </InfoWindow>
-      </Map>
+      {nodes.length > 0 && (
+        <Map google={google} initialCenter={nodes[0].info} zoom={9}>
+          {nodes.map((node) => (
+            <Marker
+              position={node.info}
+              name={node.info.company}
+              icon={svgMarker(node.info.lastUpdate)}
+              title={node.info.company}
+              onClick={onSelectedMarker}
+              onClose={() => setShowInfo(false)}
+              key={node.id}
+            />
+          ))}
+          <InfoWindow visible={showInfo} marker={activeMarker}>
+            <>{showInfo && <NodeInfo info={infoData} />}</>
+          </InfoWindow>
+        </Map>
+      )}
       {showInfo && (
         <button
           className="button more m-1 is-outlined"
