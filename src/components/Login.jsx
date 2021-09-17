@@ -2,11 +2,9 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
 import logo from "../assets/logo.png";
+import { getCredentials } from "../js/firebase";
 
 const Login = () => {
-  const test_user = "user";
-  const test_pass = "pass";
-
   const authenticated = useStoreState((state) => state.authenticated);
   const setAuthenticated = useStoreActions(
     (actions) => actions.setAuthenticated
@@ -14,15 +12,17 @@ const Login = () => {
   const userContainer = useRef("");
   const passContainer = useRef("");
   const [message, setMessage] = useState("");
+  const [credentials, setCredentials] = useState("");
   const history = useHistory();
 
   const login = () => {
     if (
-      test_user === userContainer.current.value &&
-      test_pass === passContainer.current.value
+      credentials.user === userContainer.current.value &&
+      credentials.password === passContainer.current.value
     ) {
       setMessage("");
       setAuthenticated(true);
+      history.push("/home");
       console.log("... welcome");
     } else {
       setMessage("Wrong password");
@@ -31,10 +31,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (authenticated) {
-      history.push("/home");
-    }
-  }, [authenticated]);
+    getCredentials().then((res) => {
+      setCredentials(res);
+    });
+  }, []);
 
   return (
     <div className="is-flex is-flex-centered login">
