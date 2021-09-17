@@ -5,6 +5,7 @@ import {
   collection,
   getDocs,
   getDoc,
+  setDoc,
   doc,
 } from "firebase/firestore/lite";
 
@@ -26,4 +27,39 @@ export const getNodes = async () => {
     nodes.push({ ...doc.data(), id: doc.id });
   });
   return nodes;
+};
+
+export const createNode = async (node) => {
+  console.log("... creating node");
+  const {
+    id,
+    address,
+    company,
+    contactName,
+    contactPhone,
+    description,
+    lat,
+    lng,
+  } = node;
+  const nodesDoc = await setDoc(
+    doc(db, "nodes", id, {
+      id,
+      info: {
+        address,
+        company,
+        contactName,
+        contactPhone,
+        description,
+        id,
+        lat,
+        lng,
+      },
+      notification: {
+        message: "",
+        timestamp: null,
+      },
+      reservoirs: [0, 0, 0, 0],
+    })
+  );
+  return nodesDoc;
 };

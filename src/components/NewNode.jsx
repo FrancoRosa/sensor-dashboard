@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { createNode } from "../js/firebase";
 import Input from "./Input";
 
 const NewNode = () => {
@@ -11,10 +12,18 @@ const NewNode = () => {
   const latContainer = useRef(null);
   const lngContainer = useRef(null);
 
-  const saveNode = () => {
-    console.log("... save node");
-    console.log(latContainer.current.value);
-    console.log(idContainer.current.value);
+  const onCreateNode = () => {
+    const node = {
+      id: idContainer.current.value,
+      address: addressContainer.current.value,
+      company: companyContainer.current.value,
+      contactName: contactNameContainer.current.value,
+      contactPhone: contactPhoneContainer.current.value,
+      description: descriptionContainer.current.value,
+      lat: latContainer.current.value,
+      lng: lngContainer.current.value,
+    };
+    createNode(node);
   };
 
   return (
@@ -71,7 +80,7 @@ const NewNode = () => {
       </div>
       <div className="card-footer">
         <div className="card-footer-item">
-          <button className="button" onClick={saveNode}>
+          <button className="button" onClick={onCreateNode}>
             Save node
           </button>
         </div>
