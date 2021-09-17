@@ -1,10 +1,13 @@
-import { useStoreState } from "easy-peasy";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getTimestamp, toDate, toDateTime } from "../js/helpers";
 
 const NodeDetails = () => {
   const node = useStoreState((state) => state.node);
+  const setShowNodeDetails = useStoreActions(
+    (actions) => actions.setShowNodeDetails
+  );
   const [queryDate, setQueryDate] = useState(toDate(getTimestamp()));
   const recipes = ["Recipe 1", "Recipe 2", "Recipe 3"];
   const pumpsNames = ["Pump 1", "Pump 2", "Pump 3", "Pump 4"];
@@ -144,8 +147,11 @@ const NodeDetails = () => {
       </div>
       <div className="card-footer">
         <div className="card-footer-item">
-          <button className="button">
-            <Link to="/home/nodes">Back</Link>
+          <button
+            onClick={() => setShowNodeDetails(false)}
+            className="button is-link is-outlined"
+          >
+            Back
           </button>
         </div>
       </div>

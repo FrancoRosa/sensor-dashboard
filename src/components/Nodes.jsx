@@ -1,14 +1,21 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getNodes } from "../js/firebase";
+import NodeDetails from "./NodeDetails";
 import NodeInfo from "./NodeInfo";
 
 const Nodes = ({ google }) => {
   const nodes = useStoreState((state) => state.nodes);
   const setNode = useStoreActions((actions) => actions.setNode);
+  const setNodes = useStoreActions((actions) => actions.setNodes);
   const [infoData, setInfoData] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
+  const showNodeDetails = useStoreState((state) => state.showNodeDetails);
+  const setShowNodeDetails = useStoreActions(
+    (actions) => actions.setShowNodeDetails
+  );
   const [activeMarker, setActiveMarker] = useState(null);
 
   const svgMarker = (lastUpdate) => {
@@ -34,15 +41,19 @@ const Nodes = ({ google }) => {
     setShowInfo(true);
   };
 
+  useEffect(() => {
+    getNodes().then((res) => setNodes(res));
+  }, []);
+
   return (
     <div className="container map">
-      <Map google={google} initialCenter={nodes[0]} zoom={9}>
+      <Map google={google} initialCenter={nodes[0].info} zoom={9}>
         {nodes.map((node) => (
           <Marker
-            position={node}
-            name={node.company}
-            icon={svgMarker(node.lastUpdate)}
-            title={node.company}
+            position={node.info}
+            name={node.info.company}
+            icon={svgMarker(node.info.lastUpdate)}
+            title={node.info.company}
             onClick={onSelectedMarker}
             onClose={() => setShowInfo(false)}
             key={node.id}
@@ -53,9 +64,28 @@ const Nodes = ({ google }) => {
         </InfoWindow>
       </Map>
       {showInfo && (
-        <button className="button more m-1" onClick={() => setNode(infoData)}>
-          <Link to={`/home/node/${infoData.id}`}>More ...</Link>
+        <button
+          className="button more m-1 is-outlined"
+          onClick={() => {
+            setNode(infoData);
+            setShowNodeDetails(true);
+          }}
+        >
+          More ...
         </button>
+      )}
+      {showNodeDetails && (
+        <div className={`modal ${showNodeDetails && "is-active"}`}>
+          <div className="modal-background"></div>
+          <div className="modal-content">
+            <NodeDetails />
+          </div>
+          <button
+            onClick={() => setShowNodeDetails(false)}
+            className="modal-close is-large"
+            aria-label="close"
+          ></button>
+        </div>
       )}
     </div>
   );

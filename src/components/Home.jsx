@@ -13,7 +13,6 @@ const Home = () => {
           <Switch>
             <Route path="/home/nodes" component={Nodes} />
             <Route path="/home/new_node" component={NewNode} />
-            <Route path="/home/node/:id" component={NodeDetails} />
             <Route path="/home" component={Nodes} />
           </Switch>
         </div>

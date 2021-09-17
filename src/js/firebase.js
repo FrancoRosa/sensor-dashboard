@@ -7,6 +7,7 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore/lite";
+
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
@@ -15,4 +16,14 @@ export const getCredentials = async () => {
   const credentials = doc(db, "authentication/credentials");
   const response = await getDoc(credentials);
   return response.data();
+};
+
+export const getNodes = async () => {
+  console.log("... getting nodes");
+  const nodesDoc = await getDocs(collection(db, "nodes"));
+  const nodes = [];
+  nodesDoc.forEach((doc) => {
+    nodes.push({ ...doc.data(), id: doc.id });
+  });
+  return nodes;
 };
