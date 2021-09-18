@@ -41,25 +41,23 @@ export const createNode = async (node) => {
     lat,
     lng,
   } = node;
-  const nodesDoc = await setDoc(
-    doc(db, "nodes", id, {
+  const nodesDoc = await setDoc(doc(db, "nodes", id), {
+    id,
+    info: {
+      address,
+      company,
+      contactName,
+      contactPhone,
+      description,
       id,
-      info: {
-        address,
-        company,
-        contactName,
-        contactPhone,
-        description,
-        id,
-        lat,
-        lng,
-      },
-      notification: {
-        message: "",
-        timestamp: null,
-      },
-      reservoirs: [0, 0, 0, 0],
-    })
-  );
+      lat,
+      lng,
+    },
+    notification: {
+      message: "",
+      timestamp: null,
+    },
+    reservoirs: [0, 0, 0, 0],
+  });
   return nodesDoc;
 };

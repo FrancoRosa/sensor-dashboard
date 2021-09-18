@@ -23,7 +23,7 @@ const NewNode = () => {
       lat: latContainer.current.value,
       lng: lngContainer.current.value,
     };
-    createNode(node);
+    createNode(node).then((res) => console.log(res));
   };
 
   return (
