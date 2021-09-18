@@ -1,62 +1,18 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getAllMeasurements, getMeasurement } from "../js/firebase";
 import { getTimestamp, toDate, toDateTime } from "../js/helpers";
 
 const NodeDetails = () => {
   const node = useStoreState((state) => state.node);
+  const nodes = useStoreState((state) => state.nodes);
+  const [measurements, setMeasurements] = useState([null, null, null, null]);
   const setShowNodeDetails = useStoreActions(
     (actions) => actions.setShowNodeDetails
   );
   const [queryDate, setQueryDate] = useState(toDate(getTimestamp()));
-  const recipes = ["Recipe 1", "Recipe 2", "Recipe 3"];
   const pumpsNames = ["Pump 1", "Pump 2", "Pump 3", "Pump 4"];
-  const reservoirs = [true, false, true, true];
-
-  const calibrations = [
-    {
-      id: 0,
-      config: [
-        { id: 0, pulses: 0, timeout: 0 },
-        { id: 1, pulses: 0, timeout: 0 },
-        { id: 2, pulses: 0, timeout: 0 },
-        { id: 3, pulses: 0, timeout: 0 },
-      ],
-    },
-    {
-      id: 1,
-      config: [
-        { id: 0, pulses: 0, timeout: 0 },
-        { id: 1, pulses: 0, timeout: 0 },
-        { id: 2, pulses: 0, timeout: 0 },
-        { id: 3, pulses: 0, timeout: 0 },
-      ],
-    },
-    {
-      id: 2,
-      config: [
-        { id: 0, pulses: 0, timeout: 0 },
-        { id: 1, pulses: 0, timeout: 0 },
-        { id: 2, pulses: 0, timeout: 0 },
-        { id: 3, pulses: 0, timeout: 0 },
-      ],
-    },
-  ];
-
-  const lastEvents = [
-    { message: "Check pump1", time: getTimestamp() - 124 },
-    { message: "Check pump2", time: getTimestamp() - 1234 },
-    { message: "Check pump2", time: getTimestamp() - 4234 },
-    { message: "Check pump1", time: getTimestamp() - 9234 },
-  ];
-
-  const dailyMeasurements = [
-    { reservoirs: [123, 534, 345, 467], date: "2021-09-09" },
-    { reservoirs: [83, 234, 245, 367], date: "2021-09-07" },
-    { reservoirs: [53, 134, 145, 167], date: "2021-09-02" },
-    { reservoirs: [23, 34, 45, 1], date: "2021-09-01" },
-  ];
-
   const {
     id,
     company,
@@ -66,6 +22,15 @@ const NodeDetails = () => {
     description,
     address,
   } = node;
+
+  const nodeStatus = nodes.filter((node) => node.id == id)[0];
+  const reservoirs = nodeStatus.reservoirs;
+  const lastEvent = [nodeStatus.notification];
+
+  useEffect(() => {
+    getMeasurement(id, queryDate).then((res) => setMeasurements(res));
+  }, [queryDate]);
+
   return (
     <div className="card">
       <div className="card-header is-flex is-flex-centered">
@@ -139,11 +104,42 @@ const NodeDetails = () => {
         {pumpsNames.map((pump, i) => (
           <div className="column is-flex is-flex-centered is-flex-direction-column">
             <p>{pump}</p>
-            <p className="has-text-link">
-              {dailyMeasurements[0].reservoirs[i]}
-            </p>
+            <p className="has-text-link">{measurements[i]}</p>
           </div>
         ))}
+        <div className="column is-flex is-flex-centered">
+          <div className="field">
+            <label class="label">Report:</label>
+            <button
+              onClick={() => getAllMeasurements(id)}
+              className="button is-link is-outlined"
+            >
+              Donwload
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="card-header is-flex is-flex-centered">
+        <h1 className="title is-5 m-1">Last Notifications</h1>
+      </div>
+      <div className="card-content is-flex is-flex-centered">
+        <table className="table">
+          <thead className="has-text-centered">
+            <tr>
+              <th className="has-text-centered">Message</th>
+              <th className="has-text-centered">Time stamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            {lastEvent.map((event) => (
+              <tr>
+                <td>{event.message}</td>
+                <td>{toDateTime(event.time)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
       <div className="card-footer">
         <div className="card-footer-item">

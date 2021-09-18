@@ -82,9 +82,7 @@ const Nodes = ({ google }) => {
       {showNodeDetails && (
         <div className={`modal ${showNodeDetails && "is-active"}`}>
           <div className="modal-background"></div>
-          <div className="modal-content">
-            <NodeDetails />
-          </div>
+          <NodeDetails />
           <button
             onClick={() => setShowNodeDetails(false)}
             className="modal-close is-large"

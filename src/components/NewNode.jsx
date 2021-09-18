@@ -1,8 +1,10 @@
 import { useRef } from "react";
+import { useHistory } from "react-router";
 import { createNode } from "../js/firebase";
 import Input from "./Input";
 
 const NewNode = () => {
+  const history = useHistory();
   const idContainer = useRef(null);
   const descriptionContainer = useRef(null);
   const contactNameContainer = useRef(null);
@@ -23,7 +25,7 @@ const NewNode = () => {
       lat: latContainer.current.value,
       lng: lngContainer.current.value,
     };
-    createNode(node).then((res) => console.log(res));
+    createNode(node).then((res) => history.push("/home/nodes"));
   };
 
   return (

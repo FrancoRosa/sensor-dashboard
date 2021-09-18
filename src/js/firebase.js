@@ -54,10 +54,31 @@ export const createNode = async (node) => {
       lng,
     },
     notification: {
-      message: "",
+      message: null,
       timestamp: null,
     },
-    reservoirs: [0, 0, 0, 0],
+    reservoirs: [false, false, false, false],
   });
   return nodesDoc;
+};
+
+export const getMeasurement = async (node_id, date) => {
+  const docRef = doc(db, "nodes", node_id, "measurements", date);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data().values;
+  } else {
+    return [null, null, null, null];
+  }
+};
+
+export const getAllMeasurements = async (node_id) => {
+  const collectionRef = collection(db, "nodes", node_id, "measurements");
+  const docs = await getDocs(collectionRef);
+  const records = [];
+  docs.forEach((doc) => {
+    records.push([doc.id, ...doc.data().values]);
+  });
+  console.log(records);
+  return records;
 };
