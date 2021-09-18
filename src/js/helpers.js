@@ -38,3 +38,8 @@ export const toDate = (timestamp) => {
   const time = new Date(timestamp * 1000);
   return time.toLocaleString("sv-SE").split(" ")[0];
 };
+
+export const arrToCSV = (arr) => {
+  const lines = arr.map((line) => line.join(","));
+  return lines.join("\n");
+};

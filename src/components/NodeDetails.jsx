@@ -2,12 +2,13 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllMeasurements, getMeasurement } from "../js/firebase";
-import { getTimestamp, toDate, toDateTime } from "../js/helpers";
+import { arrToCSV, getTimestamp, toDate, toDateTime } from "../js/helpers";
 
 const NodeDetails = () => {
   const node = useStoreState((state) => state.node);
   const nodes = useStoreState((state) => state.nodes);
   const [measurements, setMeasurements] = useState([null, null, null, null]);
+  const [allMeasurements, setAllMeasurements] = useState([]);
   const setShowNodeDetails = useStoreActions(
     (actions) => actions.setShowNodeDetails
   );
@@ -30,6 +31,19 @@ const NodeDetails = () => {
   useEffect(() => {
     getMeasurement(id, queryDate).then((res) => setMeasurements(res));
   }, [queryDate]);
+
+  const onDownload = () => {
+    getAllMeasurements(id).then((res) => {
+      const csv = arrToCSV(res);
+      let currentTime = toDate(getTimestamp());
+      let currentStr = currentTime.split(/-|:/).join("");
+      let filePrefix = currentStr.replace(" ", "_");
+      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(csv);
+      let dlAnchorElem = document.querySelector(".download");
+      dlAnchorElem.setAttribute("href", dataStr);
+      dlAnchorElem.setAttribute("download", `decon7_${filePrefix}_${id}.csv`);
+    });
+  };
 
   return (
     <div className="card">
@@ -110,12 +124,13 @@ const NodeDetails = () => {
         <div className="column is-flex is-flex-centered">
           <div className="field">
             <label class="label">Report:</label>
-            <button
-              onClick={() => getAllMeasurements(id)}
-              className="button is-link is-outlined"
+
+            <a
+              onClick={onDownload}
+              className="button is-link is-outlined download"
             >
-              Donwload
-            </button>
+              Download
+            </a>
           </div>
         </div>
       </div>
