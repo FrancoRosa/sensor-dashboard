@@ -48,8 +48,15 @@ const Nodes = ({ google }) => {
     });
   }, []);
 
+  const fadeOut = () => {
+    document.querySelector(".card").classList.add("animate__fadeOutRight");
+    setTimeout(() => {
+      setShowNodeDetails(false);
+    }, 1000);
+  };
+
   return (
-    <div className="container map">
+    <div className="container map animate__animated animate__fadeInDown">
       {nodes.length > 0 && (
         <Map google={google} initialCenter={nodes[0].info} zoom={9}>
           {nodes.map((node) => (
@@ -84,7 +91,7 @@ const Nodes = ({ google }) => {
           <div className="modal-background"></div>
           <NodeDetails />
           <button
-            onClick={() => setShowNodeDetails(false)}
+            onClick={fadeOut}
             className="modal-close is-large"
             aria-label="close"
           ></button>

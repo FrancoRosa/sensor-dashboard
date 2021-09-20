@@ -8,7 +8,7 @@ const NodeDetails = () => {
   const node = useStoreState((state) => state.node);
   const nodes = useStoreState((state) => state.nodes);
   const [measurements, setMeasurements] = useState([null, null, null, null]);
-  const [allMeasurements, setAllMeasurements] = useState([]);
+  const [report, setReport] = useState(null);
   const setShowNodeDetails = useStoreActions(
     (actions) => actions.setShowNodeDetails
   );
@@ -33,20 +33,31 @@ const NodeDetails = () => {
   }, [queryDate]);
 
   const onDownload = () => {
+    let currentTime = toDate(getTimestamp());
+    let currentStr = currentTime.split(/-|:/).join("");
+    let filePrefix = currentStr.replace(" ", "_");
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(report);
+    let dlAnchorElem = document.querySelector(".download");
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", `decon7_${filePrefix}_${id}.csv`);
+  };
+
+  const generateReport = () => {
     getAllMeasurements(id).then((res) => {
       const csv = arrToCSV(res);
-      let currentTime = toDate(getTimestamp());
-      let currentStr = currentTime.split(/-|:/).join("");
-      let filePrefix = currentStr.replace(" ", "_");
-      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(csv);
-      let dlAnchorElem = document.querySelector(".download");
-      dlAnchorElem.setAttribute("href", dataStr);
-      dlAnchorElem.setAttribute("download", `decon7_${filePrefix}_${id}.csv`);
+      setReport(csv);
     });
   };
 
+  const fadeOut = () => {
+    document.querySelector(".card").classList.add("animate__fadeOutRight");
+    setTimeout(() => {
+      setShowNodeDetails(false);
+    }, 1000);
+  };
+
   return (
-    <div className="card">
+    <div className="card animate__animated animate__fadeInRight">
       <div className="card-header is-flex is-flex-centered">
         <h1 className="title is-5 m-1">Node details</h1>
       </div>
@@ -126,10 +137,10 @@ const NodeDetails = () => {
             <label class="label">Report:</label>
 
             <a
-              onClick={onDownload}
+              onClick={report ? onDownload : generateReport}
               className="button is-link is-outlined download"
             >
-              Download
+              {report ? "Donwload" : "Generate"}
             </a>
           </div>
         </div>
@@ -158,10 +169,7 @@ const NodeDetails = () => {
       </div>
       <div className="card-footer">
         <div className="card-footer-item">
-          <button
-            onClick={() => setShowNodeDetails(false)}
-            className="button is-link is-outlined"
-          >
+          <button onClick={fadeOut} className="button is-link is-outlined">
             Back
           </button>
         </div>

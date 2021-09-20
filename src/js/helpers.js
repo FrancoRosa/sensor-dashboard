@@ -41,5 +41,6 @@ export const toDate = (timestamp) => {
 
 export const arrToCSV = (arr) => {
   const lines = arr.map((line) => line.join(","));
-  return lines.join("\n");
+  const result = lines.join("\n");
+  return result ? result : "No data available";
 };

@@ -29,7 +29,7 @@ const NewNode = () => {
   };
 
   return (
-    <div className="card">
+    <div className="card animate__animated animate__fadeInUp">
       <div className="card-content">
         <div className="columns">
           <div className="column">
