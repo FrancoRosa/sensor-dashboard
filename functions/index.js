@@ -37,6 +37,9 @@ exports.measurements = functions.https.onRequest(async (req, res) => {
             lng: 0,
           },
         });
+        recordRef.doc(toDate(data.last_measurement.timestamp)).set({
+          values: data.last_measurement.values,
+        });
       }
     });
     res.json({ message: "ok" });

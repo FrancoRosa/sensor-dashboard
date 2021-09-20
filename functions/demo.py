@@ -3,15 +3,15 @@ url = 'http://localhost:5001/decon7-admin/us-central1/measurements'
 # url = 'http://us-central1-decon7-admin.cloudfunctions.net/measurements'
 
 measurement = {
-    "id": "4",
+    "id": "9",
     "notification": {
         "message": "Last drop",
-        "timestamp": 16900000
+        "timestamp": 169000000
     },
     "reservoirs": [0, 1, 0, 4],
     "last_measurement": {
         "values": [1, 1, 1, 8],
-        "timestamp": 168000000
+        "timestamp": 166660000
     },
 }
 

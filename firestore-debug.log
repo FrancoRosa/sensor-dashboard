@@ -5,37 +5,41 @@ If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment
 
 Dev App Server is now running.
 
-Sep 20, 2021 10:51:50 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:10:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Sep 20, 2021 11:10:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Sep 20, 2021 11:10:28 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:10:29 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:10:29 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:10:29 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+Sep 20, 2021 11:10:49 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:10:55 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:10:55 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:10:57 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:11:14 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Sep 20, 2021 11:11:59 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:02 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:12:26 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Sep 20, 2021 11:13:11 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:13:21 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+Sep 20, 2021 11:13:33 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+Sep 20, 2021 11:13:33 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:07 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:07 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:07 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
-Sep 20, 2021 10:52:10 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
-INFO: Detected non-HTTP/2 connection.
+Sep 20, 2021 11:13:33 AM com.google.cloud.datastore.emulator.firestore.webchannel.FirestoreV1WebChannelAdapter$FirestoreListenHandler onClose
+INFO: channel closed
 *** shutting down gRPC server since JVM is shutting down
 *** server shut down
