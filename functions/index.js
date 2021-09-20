@@ -24,7 +24,19 @@ exports.measurements = functions.https.onRequest(async (req, res) => {
           values: data.last_measurement.values,
         });
       } else {
-        nodeRef.set({ ...data });
+        nodeRef.set({
+          ...data,
+          info: {
+            address: "no address",
+            company: "no company",
+            contactName: "no name",
+            contactPhone: "no phone",
+            contactPhone: "no description",
+            id: data.id,
+            lat: 0,
+            lng: 0,
+          },
+        });
       }
     });
     res.json({ message: "ok" });
