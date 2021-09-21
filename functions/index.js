@@ -47,3 +47,22 @@ exports.measurements = functions.https.onRequest(async (req, res) => {
     res.json({ message: "error" });
   }
 });
+
+exports.records = functions.https.onRequest(async (req, res) => {
+  const data = req.body;
+  const keys = Object.keys(data);
+  if (keys.includes("id") && keys.includes("records")) {
+    const recordRef = db
+      .collection("nodes")
+      .doc(data.id)
+      .collection("measurements");
+    data.records.forEach((record) => {
+      recordRef.doc(record.shift()).set({
+        values: record,
+      });
+    });
+    res.json({ message: "ok" });
+  } else {
+    res.json({ message: "error" });
+  }
+});
