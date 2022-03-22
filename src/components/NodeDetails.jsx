@@ -1,10 +1,9 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { getAllMeasurements, getMeasurement } from "../js/firebase";
 import { arrToCSV, getTimestamp, toDate, toDateTime } from "../js/helpers";
 
-const NodeDetails = () => {
+const NodeDetails = ({ handleDeleteNode }) => {
   const node = useStoreState((state) => state.node);
   const nodes = useStoreState((state) => state.nodes);
   const [measurements, setMeasurements] = useState([null, null, null, null]);
@@ -15,16 +14,20 @@ const NodeDetails = () => {
   const [queryDate, setQueryDate] = useState(toDate(getTimestamp()));
   const pumpsNames = ["Pump 1", "Pump 2", "Pump 3", "Pump 4"];
   const {
-    id,
-    company,
-    contactName,
-    contactPhone,
-    lastUpdate,
-    description,
-    address,
+    info: {
+      id,
+      company,
+      contactName,
+      contactPhone,
+      description,
+      address,
+      lat,
+      lng,
+    },
+    last_measurement: { timestamp },
   } = node;
 
-  const nodeStatus = nodes.filter((node) => node.id == id)[0];
+  const nodeStatus = nodes.filter((node) => node.id === id)[0];
   const reservoirs = nodeStatus.reservoirs;
   const lastEvent = [nodeStatus.notification];
 
@@ -56,11 +59,16 @@ const NodeDetails = () => {
     }, 1000);
   };
 
+  const isRecent = (timestamp) => {
+    const secondsInDay = 24 * 60 * 60;
+    return timestamp > Date.now() / 1000 - secondsInDay;
+  };
+
   return (
-    <div className="card animate__animated animate__fadeInRight">
-      <div className="card-header is-flex is-flex-centered">
-        <h1 className="title is-5 m-1">Node details</h1>
-      </div>
+    <div
+      className="card animate__animated animate__fadeInRight"
+      style={{ overflow: "scroll" }}
+    >
       <div className="card-content">
         <div className="columns">
           <div className="column">
@@ -69,11 +77,12 @@ const NodeDetails = () => {
               {company}
             </p>
             <p>
-              <span className="has-text-weight-semibold">Id:</span> {id}
+              <span className="has-text-weight-semibold">Contact:</span>{" "}
+              {contactName}
             </p>
             <p>
-              <span className="has-text-weight-semibold">Contact:</span>{" "}
-              {contactName} - {contactPhone}
+              <span className="has-text-weight-semibold">Phone:</span>{" "}
+              {contactPhone}
             </p>
           </div>
           <div className="column">
@@ -85,12 +94,21 @@ const NodeDetails = () => {
               <span className="has-text-weight-semibold">Address:</span>{" "}
               {address}
             </p>
-            <p>
-              <span className="has-text-weight-semibold">Last update:</span>{" "}
-              {toDateTime(lastUpdate)}
-            </p>
           </div>
         </div>
+        <p className="help is-link" style={{ textAlign: "right" }}>
+          Coordinates: {parseFloat(lat).toFixed(5)},{" "}
+          {parseFloat(lng).toFixed(5)}
+        </p>
+        <p className="help is-link" style={{ textAlign: "right" }}>
+          RPI ID: {id}
+        </p>
+        <p
+          className={`help ${isRecent(timestamp) ? "is-link" : "is-danger"}`}
+          style={{ textAlign: "right" }}
+        >
+          Last update: {toDateTime(timestamp)}
+        </p>
       </div>
       <div className="card-header is-flex is-flex-centered">
         <h1 className="title is-5 m-1">Reservoirs</h1>
@@ -171,6 +189,12 @@ const NodeDetails = () => {
         <div className="card-footer-item">
           <button onClick={fadeOut} className="button is-link is-outlined">
             Back
+          </button>
+          <button
+            onClick={() => handleDeleteNode(node)}
+            className="button is-danger ml-4 is-outlined"
+          >
+            Delete
           </button>
         </div>
       </div>

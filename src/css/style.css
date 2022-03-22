@@ -237,4 +237,18 @@ body {
 .more {
   position: absolute;
   bottom: 0;
+  left: 7em;
+}
+
+.list-button {
+  position: absolute;
+  bottom: 0;
+}
+
+.menu::-webkit-scrollbar {
+  display: none;
+}
+
+.card::-webkit-scrollbar {
+  display: none;
 }

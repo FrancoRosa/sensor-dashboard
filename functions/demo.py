@@ -1,9 +1,9 @@
 from requests import post
-url = 'http://us-central1-decon7-admin.cloudfunctions.net'
 url = 'http://localhost:5001/decon7-admin/us-central1'
+url = 'http://us-central1-decon7-admin.cloudfunctions.net'
 
 measurement = {
-    "id": "12",
+    "id": "hate dis",
     "notification": {
         "message": "NO drops",
         "timestamp": 169000000

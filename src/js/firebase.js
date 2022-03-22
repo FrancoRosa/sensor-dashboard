@@ -6,6 +6,7 @@ import {
   getDocs,
   getDoc,
   setDoc,
+  deleteDoc,
   doc,
 } from "firebase/firestore/lite";
 
@@ -58,8 +59,14 @@ export const createNode = async (node) => {
       timestamp: null,
     },
     reservoirs: [false, false, false, false],
+    last_measurement: { timestamp: Math.round(Date.now() / 1000) },
   });
   return nodesDoc;
+};
+
+export const deleteNode = async (node) => {
+  const { id } = node;
+  await deleteDoc(doc(db, "nodes", id));
 };
 
 export const getMeasurement = async (node_id, date) => {

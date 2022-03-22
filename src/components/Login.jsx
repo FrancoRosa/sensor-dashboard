@@ -5,7 +5,6 @@ import logo from "../assets/logo.png";
 import { getCredentials } from "../js/firebase";
 
 const Login = () => {
-  const authenticated = useStoreState((state) => state.authenticated);
   const setAuthenticated = useStoreActions(
     (actions) => actions.setAuthenticated
   );
@@ -41,7 +40,7 @@ const Login = () => {
       <div className="card">
         <div className="card-image">
           <figure className="image">
-            <img src={logo} className="p-4 logo" />
+            <img src={logo} className="p-4 logo" alt="logo" />
           </figure>
         </div>
         <div className="card-content">

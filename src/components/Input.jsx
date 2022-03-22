@@ -1,4 +1,4 @@
-import { createRef, forwardRef } from "react";
+import { forwardRef } from "react";
 
 const Input = ({ label, placeholder, type = "text" }, ref) => {
   return (

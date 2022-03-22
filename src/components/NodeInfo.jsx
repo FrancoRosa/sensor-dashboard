@@ -1,16 +1,5 @@
-import { Link } from "react-router-dom";
-import { toDateTime } from "../js/helpers";
-
 const NodeInfo = ({ info }) => {
-  const {
-    id,
-    company,
-    contactName,
-    contactPhone,
-    lastUpdate,
-    description,
-    address,
-  } = info;
+  const { company, contactName, contactPhone, description, address } = info;
   return (
     <div className="has-text-black">
       <h1>
@@ -26,10 +15,6 @@ const NodeInfo = ({ info }) => {
       </p>
       <p>
         <span className="has-text-weight-semibold">Address:</span> {address}
-      </p>
-      <p>
-        <span className="has-text-weight-semibold">Last update:</span>{" "}
-        {toDateTime(lastUpdate)}
       </p>
     </div>
   );
