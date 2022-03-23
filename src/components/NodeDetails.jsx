@@ -158,7 +158,7 @@ const NodeDetails = ({ handleDeleteNode }) => {
               onClick={report ? onDownload : generateReport}
               className="button is-link is-outlined download"
             >
-              {report ? "Donwload" : "Generate"}
+              {report ? "Download" : "Generate"}
             </a>
           </div>
         </div>
