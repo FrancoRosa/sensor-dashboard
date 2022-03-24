@@ -179,7 +179,7 @@ const NodeDetails = ({ handleDeleteNode }) => {
             {lastEvent.map((event) => (
               <tr>
                 <td>{event.message}</td>
-                <td>{toDateTime(event.time)}</td>
+                <td>{toDateTime(event.timestamp)}</td>
               </tr>
             ))}
           </tbody>
