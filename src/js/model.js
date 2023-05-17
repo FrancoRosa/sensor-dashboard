@@ -1,9 +1,13 @@
 import { action } from "easy-peasy";
 
-export default {
+const model = {
   authenticated: false,
   setAuthenticated: action((state, authenticated) => {
     state.authenticated = authenticated;
+  }),
+  user: {},
+  setUser: action((state, user) => {
+    state.user = user;
   }),
   nodes: [],
   setNodes: action((state, nodes) => {
@@ -18,3 +22,5 @@ export default {
     state.showNodeDetails = showNodeDetails;
   }),
 };
+
+export default model;

@@ -5,6 +5,7 @@ import { deleteNode, getNodes } from "../js/firebase";
 import NodeDetails from "./NodeDetails";
 import NodeInfo from "./NodeInfo";
 import NodeList from "./NodeList";
+import { getDevices } from "../js/api";
 
 const Nodes = ({ google }) => {
   const nodes = useStoreState((state) => state.nodes);
@@ -23,9 +24,7 @@ const Nodes = ({ google }) => {
   const [activeMarker, setActiveMarker] = useState(null);
 
   const svgMarker = (node) => {
-    const {
-      last_measurement: { timestamp },
-    } = node;
+    const timestamp = 1684271934;
     let color;
     if (timestamp > Date.now() / 1000 - 24 * 60 * 60) {
       color = "green";
@@ -50,10 +49,10 @@ const Nodes = ({ google }) => {
   };
 
   const handleListClick = (node) => {
-    setCenter(node.info);
-    setInfoData(node.info);
+    setCenter(node);
+    setInfoData(node);
     setShowInfo(true);
-    setActive(node.info);
+    setActive(node);
   };
 
   const handleDeleteNode = (node) => {
@@ -76,9 +75,11 @@ const Nodes = ({ google }) => {
   };
 
   useEffect(() => {
-    getNodes().then((res) => {
-      setNodes(res);
+    getDevices().then(({ data }) => {
+      console.log(data);
+      setNodes(data);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fadeOut = () => {
@@ -99,10 +100,10 @@ const Nodes = ({ google }) => {
         >
           {nodes.map((node) => (
             <Marker
-              position={node.info}
-              name={node.info.company}
+              position={{ lat: node.lat, lng: node.lng }}
+              name={node.name}
               icon={svgMarker(node)}
-              title={node.info.company}
+              title={node.name}
               onClick={onSelectedMarker}
               onClose={() => setShowInfo(false)}
               key={node.id}
@@ -117,7 +118,7 @@ const Nodes = ({ google }) => {
         <button
           className="button more m-1 is-outlined"
           onClick={() => {
-            setNode(nodes.find((node) => node.id == infoData.id));
+            setNode(nodes.find((node) => node.id === infoData.id));
             setShowNodeDetails(true);
           }}
         >
@@ -128,7 +129,7 @@ const Nodes = ({ google }) => {
         className="button m-1 is-outlined list-button"
         onClick={() => setShowList(!showList)}
       >
-        {showList ? "Hide List" : "Show List"}
+        {showList ? "Hide List" : "Devices"}
       </button>
       {showNodeDetails && (
         <div className={`modal ${showNodeDetails && "is-active"}`}>

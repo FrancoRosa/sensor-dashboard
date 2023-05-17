@@ -3,13 +3,14 @@ import HomeNavigation from "./HomeNavigation";
 import NewNode from "./NewNode";
 import Nodes from "./Nodes";
 import NodeDetails from "./NodeDetails";
+import MainLabel from "./MainLabel";
 
 const Home = () => {
   return (
     <div className="container">
-      <div className="columns m-4">
-        <HomeNavigation />
-        <div className="column p-4">
+      <div>
+        <div>
+          <MainLabel />
           <Switch>
             <Route path="/home/nodes" component={Nodes} />
             <Route path="/home/new_node" component={NewNode} />

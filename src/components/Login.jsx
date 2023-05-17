@@ -1,46 +1,77 @@
+import { useEffect, useState } from "react";
+import logo from "../assets/icon.png";
+import { getDBLogin } from "../js/api";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
-import logo from "../assets/logo.png";
-import { getCredentials } from "../js/firebase";
 
 const Login = () => {
+  const setUser = useStoreActions((actions) => actions.setUser);
+  const authenticated = useStoreState((state) => state.authenticated);
   const setAuthenticated = useStoreActions(
     (actions) => actions.setAuthenticated
   );
-  const userContainer = useRef("");
-  const passContainer = useRef("");
-  const [message, setMessage] = useState("");
-  const [credentials, setCredentials] = useState("");
+
+  const [message, setMessage] = useState({ style: "", text: "" });
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const login = () => {
-    if (
-      credentials.user === userContainer.current.value &&
-      credentials.password === passContainer.current.value
-    ) {
-      setMessage("");
-      setAuthenticated(true);
-      history.push("/home");
-      console.log("... welcome");
-    } else {
-      setMessage("Wrong password");
-      console.error("... wrong pass");
-    }
+  const login = (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const {
+      user: { value: user },
+      password: { value: password },
+    } = e.target.elements;
+    getDBLogin(user, password).then(({ data }) => {
+      setLoading(false);
+      if (data.length > 0) {
+        setAuthenticated(true);
+        setUser(data[0]);
+        setMessage({ style: "is-success", text: "Welcome" });
+      } else {
+        setAuthenticated(false);
+        setUser({});
+        setMessage({
+          style: "is-danger",
+          text: "User or password error, try again",
+        });
+      }
+    });
   };
 
   useEffect(() => {
-    getCredentials().then((res) => {
-      setCredentials(res);
-    });
-  }, []);
+    if (authenticated === true) {
+      history.push("/home");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authenticated]);
 
   return (
     <div className="is-flex is-flex-centered login">
-      <div className="card">
+      <form className="card" onSubmit={login}>
         <div className="card-image">
-          <figure className="image">
-            <img src={logo} className="p-4 logo" alt="logo" />
+          <figure
+            className="image is-flex"
+            style={{
+              // justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={logo}
+              className="p-4 logo"
+              alt="logo"
+              style={{ width: "100px" }}
+            />
+            <p
+              style={{
+                marginLeft: "-0.5em",
+                marginRight: "1em",
+              }}
+              className="title is-4"
+            >
+              Sensor Dashboard
+            </p>
           </figure>
         </div>
         <div className="card-content">
@@ -51,8 +82,7 @@ const Login = () => {
                 className="input"
                 type="text"
                 placeholder="User"
-                ref={userContainer}
-                onFocus={() => setMessage("")}
+                name="user"
               />
             </div>
           </div>
@@ -63,21 +93,23 @@ const Login = () => {
                 className="input"
                 type="password"
                 placeholder="Password"
-                ref={passContainer}
-                onFocus={() => setMessage("")}
+                name="password"
               />
             </div>
           </div>
         </div>
         <div className="card-footer">
           <div className="card-footer-item is-flex-direction-column">
-            <button className="button" onClick={login}>
+            <button
+              className={`button ${loading && "is-loading"}`}
+              disabled={loading}
+            >
               Log in
             </button>
-            <p class="help is-danger">{message}</p>
+            <p class={`help ${message.style}`}>{message.text}</p>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

@@ -4,7 +4,7 @@ const NodeList = ({ nodes, handleListClick, active, setActive }) => {
       className="menu"
       style={{
         width: "15em",
-        height: "80vh",
+        height: "calc(100vh - 3.5em)",
         backgroundColor: "rgb(40 47 47 / 94%)",
         position: "absolute",
         top: "0.25em",
@@ -28,9 +28,7 @@ const NodeList = ({ nodes, handleListClick, active, setActive }) => {
             }}
             className="m-2"
           >
-            <a className={node.id == active.id && "is-active"}>
-              {node.info.company}, {node.info.address}
-            </a>
+            <a className={node.id === active.id && "is-active"}>{node.name}</a>
           </li>
         ))}
       </ul>
