@@ -17,7 +17,7 @@ const HomeNavigation = () => {
         {options.map((option) => (
           <li>
             <Link
-              className={option == selection && "is-active"}
+              className={option === selection && "is-active"}
               onClick={() => setSelection(option)}
               to={`/home/${option}`}
             >

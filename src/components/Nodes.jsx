@@ -1,7 +1,6 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { useEffect, useState } from "react";
-import { deleteNode, getNodes } from "../js/firebase";
 import NodeDetails from "./NodeDetails";
 import NodeInfo from "./NodeInfo";
 import NodeList from "./NodeList";
@@ -24,7 +23,7 @@ const Nodes = ({ google }) => {
   const [activeMarker, setActiveMarker] = useState(null);
 
   const svgMarker = (node) => {
-    const timestamp = 1684271934;
+    const timestamp = Date.now();
     let color;
     if (timestamp > Date.now() / 1000 - 24 * 60 * 60) {
       color = "green";
@@ -44,7 +43,13 @@ const Nodes = ({ google }) => {
   const onSelectedMarker = (props, marker, e) => {
     setActiveMarker(marker);
     setInfoData(props.position);
-    setActive(props.position);
+    setActive(
+      nodes.find(
+        (n) => n.lat === props.position.lat && n.lng === props.position.lng
+      )
+    );
+    // setActive(props.position);
+    console.log(props.position);
     setShowInfo(true);
   };
 
@@ -56,22 +61,7 @@ const Nodes = ({ google }) => {
   };
 
   const handleDeleteNode = (node) => {
-    let result;
-    if (nodes.length > 1) {
-      result = window.confirm(
-        `This action is not reversible\nDelete ${node.info.company} node?`
-      );
-      if (result) {
-        deleteNode(node).then(() => {
-          const newNodes = nodes.filter((n) => n.id != node.id);
-          setNode(newNodes[0]);
-          setShowNodeDetails(false);
-          setNodes(newNodes);
-        });
-      }
-    } else {
-      window.alert("There should be at least one node");
-    }
+    console.log("... deleting:", node);
   };
 
   useEffect(() => {

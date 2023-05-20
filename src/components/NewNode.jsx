@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { useHistory } from "react-router";
-import { createNode } from "../js/firebase";
 import Input from "./Input";
 
 const NewNode = () => {
@@ -13,20 +12,6 @@ const NewNode = () => {
   const addressContainer = useRef(null);
   const latContainer = useRef(null);
   const lngContainer = useRef(null);
-
-  const onCreateNode = () => {
-    const node = {
-      id: idContainer.current.value,
-      address: addressContainer.current.value,
-      company: companyContainer.current.value,
-      contactName: contactNameContainer.current.value,
-      contactPhone: contactPhoneContainer.current.value,
-      description: descriptionContainer.current.value,
-      lat: latContainer.current.value,
-      lng: lngContainer.current.value,
-    };
-    createNode(node).then((res) => history.push("/home/nodes"));
-  };
 
   return (
     <div className="card animate__animated animate__fadeInUp">
@@ -82,7 +67,12 @@ const NewNode = () => {
       </div>
       <div className="card-footer">
         <div className="card-footer-item">
-          <button className="button" onClick={onCreateNode}>
+          <button
+            className="button"
+            onClick={() => {
+              console.log("creating node");
+            }}
+          >
             Save node
           </button>
         </div>

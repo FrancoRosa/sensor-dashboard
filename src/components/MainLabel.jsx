@@ -7,6 +7,7 @@ const MainLabel = () => {
         position: "absolute",
         zIndex: 2000,
         right: "calc(50vw - 10em)",
+        top: "0.25em",
         width: "18em",
         backgroundColor: "rgba(40, 47, 47, 0.7)",
         borderRadius: "5px",
