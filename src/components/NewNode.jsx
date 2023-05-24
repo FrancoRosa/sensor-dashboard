@@ -1,9 +1,9 @@
 import { useRef } from "react";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 import Input from "./Input";
 
 const NewNode = () => {
-  const history = useHistory();
+  // const history = useHistory();
   const idContainer = useRef(null);
   const descriptionContainer = useRef(null);
   const contactNameContainer = useRef(null);

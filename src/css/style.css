@@ -23,10 +23,6 @@
   font-size: 0.5rem;
 }
 
-.rpi-width {
-  width: 800px;
-}
-
 .is-justify-content-center {
   justify-content: center;
 }
@@ -232,6 +228,7 @@ body {
 
 .map {
   height: 100vh;
+  width: 100vw;
 }
 
 .more {

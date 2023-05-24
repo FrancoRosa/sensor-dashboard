@@ -1,14 +1,11 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { useState } from "react";
-import { getTimestamp, toDate, toDateTime } from "../js/helpers";
+import { toDateTime } from "../js/helpers";
 
 const NodeDetails = ({ handleDeleteNode }) => {
   const node = useStoreState((state) => state.node);
-  const nodes = useStoreState((state) => state.nodes);
   const setShowNodeDetails = useStoreActions(
     (actions) => actions.setShowNodeDetails
   );
-  const [queryDate, setQueryDate] = useState(toDate(getTimestamp()));
   const { id, name, lat, lng, timestamp = Date.now() } = node;
 
   const fadeOut = () => {

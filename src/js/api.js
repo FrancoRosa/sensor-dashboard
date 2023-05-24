@@ -3,7 +3,7 @@ import { supabase } from "../js/supabase";
 export const getDBLogin = async (user, pass) => {
   return await supabase
     .from("users")
-    .select("role, active")
+    .select("name, role, active")
     .like("name", user)
     .like("pass", pass);
 };

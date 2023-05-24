@@ -25,9 +25,10 @@ const Login = () => {
     getDBLogin(user, password).then(({ data }) => {
       setLoading(false);
       if (data.length > 0) {
+        const userData = data[0];
         setAuthenticated(true);
-        setUser(data[0]);
-        setMessage({ style: "is-success", text: "Welcome" });
+        setUser(userData);
+        setMessage({ style: "is-success", text: `Welcome ${userData.name}!` });
       } else {
         setAuthenticated(false);
         setUser({});
@@ -41,7 +42,9 @@ const Login = () => {
 
   useEffect(() => {
     if (authenticated === true) {
-      history.push("/home");
+      setTimeout(() => {
+        history.push("/home");
+      }, 1500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated]);

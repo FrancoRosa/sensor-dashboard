@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 const NodeList = ({ nodes, handleListClick, active, setActive }) => {
   return (
     <aside
@@ -28,7 +29,9 @@ const NodeList = ({ nodes, handleListClick, active, setActive }) => {
             }}
             className="m-2"
           >
-            <a className={node.id === active.id && "is-active"}>{node.name}</a>
+            <a href="#" className={node.id === active.id && "is-active"}>
+              {node.name}
+            </a>
           </li>
         ))}
       </ul>

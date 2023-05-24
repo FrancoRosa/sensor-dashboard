@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { underScoreToSpace } from "../js/helpers";
 import { capitalize } from "../js/helpers";
@@ -11,7 +11,7 @@ const HomeNavigation = () => {
   return (
     <div className="menu column is-one-fifth">
       <p className="menu-label has-text-link">
-        <a>Home</a>
+        <a href="#">Home</a>
       </p>
       <ul className="menu-list">
         {options.map((option) => (
