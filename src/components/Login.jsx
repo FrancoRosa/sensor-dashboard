@@ -23,13 +23,14 @@ const Login = () => {
       password: { value: password },
     } = e.target.elements;
     getDBLogin(user, password).then(({ data }) => {
-      setLoading(false);
       if (data.length > 0) {
         const userData = data[0];
         setAuthenticated(true);
         setUser(userData);
-        setMessage({ style: "is-success", text: `Welcome ${userData.name}!` });
+        setMessage({ style: "is-success", text: `... Welcome ${userData.name}!` });
       } else {
+        setLoading(false);
+
         setAuthenticated(false);
         setUser({});
         setMessage({
@@ -44,7 +45,7 @@ const Login = () => {
     if (authenticated === true) {
       setTimeout(() => {
         history.push("/home");
-      }, 1500);
+      }, 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authenticated]);

@@ -42,14 +42,11 @@ const Nodes = ({ google }) => {
 
   const onSelectedMarker = (props, marker, e) => {
     setActiveMarker(marker);
-    setInfoData(props.position);
-    setActive(
-      nodes.find(
-        (n) => n.lat === props.position.lat && n.lng === props.position.lng
-      )
-    );
-    // setActive(props.position);
-    console.log(props.position);
+    const targetNode = nodes.find(
+      (n) => n.lat === props.position.lat && n.lng === props.position.lng
+    )
+    setInfoData(targetNode);
+    setActive(targetNode);
     setShowInfo(true);
   };
 
