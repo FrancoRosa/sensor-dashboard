@@ -146,5 +146,4 @@ const Nodes = ({ google }) => {
 
 export default GoogleApiWrapper({
   apiKey: "AIzaSyBsgd5A9q-23gHy8tL6e5O0lct6JoD97xo",
-  version: "beta",
 })(Nodes);
