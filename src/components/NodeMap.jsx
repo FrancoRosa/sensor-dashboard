@@ -1,9 +1,7 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { useEffect, useState } from "react";
-import NodeDetails from "./NodeDetails";
 import NodeInfo from "./NodeInfo";
-import NodeList from "./NodeList";
 import { getDevices } from "../js/api";
 import { isRecent } from "../js/helpers";
 
@@ -16,6 +14,7 @@ const Nodes = ({ google }) => {
   const [showList, setShowList] = useState(false);
   const [active, setActive] = useState({ id: 1 });
   const [center, setCenter] = useState({});
+  const [mapWidth, setMapWidth] = useState(window.innerWidth > 768 ? 35 : 95);
 
   const showNodeDetails = useStoreState((state) => state.showNodeDetails);
   const setShowNodeDetails = useStoreActions(
@@ -62,78 +61,41 @@ const Nodes = ({ google }) => {
       console.log(data);
       setNodes(data);
     });
+    window.matchMedia("(min-width: 768px)").addEventListener("change", (e) => {
+      if (e.matches) {
+        setMapWidth(40);
+        console.log(40);
+      } else {
+        setMapWidth(100);
+        console.log(100);
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fadeOut = () => {
-    document.querySelector(".card").classList.add("animate__fadeOutRight");
-    setTimeout(() => {
-      setShowNodeDetails(false);
-    }, 1000);
-  };
-
   return (
-    <div className="container map animate__animated animate__fadeInDown">
-      {nodes.length > 0 && (
-        <Map
-          google={google}
-          initialCenter={nodes[0].info}
-          center={center}
-          zoom={9}
-        >
-          {nodes.map((node) => (
-            <Marker
-              position={{ lat: node.lat, lng: node.lng }}
-              name={node.name}
-              icon={svgMarker(node)}
-              title={node.name}
-              onClick={onSelectedMarker}
-              onClose={() => setShowInfo(false)}
-              key={node.id}
-            />
-          ))}
-          <InfoWindow visible={showInfo} marker={activeMarker}>
-            <>{showInfo && <NodeInfo info={infoData} />}</>
-          </InfoWindow>
-        </Map>
-      )}
-      {showInfo && (
-        <button
-          className="button more m-1 is-outlined"
-          onClick={() => {
-            setNode(nodes.find((node) => node.id === infoData.id));
-            setShowNodeDetails(true);
-          }}
-        >
-          More ...
-        </button>
-      )}
-      <button
-        className="button m-1 is-outlined list-button"
-        onClick={() => setShowList(!showList)}
-      >
-        {showList ? "Hide List" : "Devices"}
-      </button>
-      {showNodeDetails && (
-        <div className={`modal ${showNodeDetails && "is-active"}`}>
-          <div className="modal-background"></div>
-          <NodeDetails handleDeleteNode={handleDeleteNode} />
-          <button
-            onClick={fadeOut}
-            className="modal-close is-large"
-            aria-label="close"
-          ></button>
-        </div>
-      )}
-      {showList && (
-        <NodeList
-          nodes={nodes}
-          handleListClick={handleListClick}
-          active={active}
-          setActive={setActive}
+    <Map
+      google={google}
+      initialCenter={nodes[0].info}
+      center={center}
+      zoom={9}
+      style={{ width: `${mapWidth}vw`, height: "80vh" }}
+    >
+      {nodes.map((node) => (
+        <Marker
+          position={{ lat: node.lat, lng: node.lng }}
+          name={node.name}
+          icon={svgMarker(node)}
+          title={node.name}
+          onClick={onSelectedMarker}
+          onClose={() => setShowInfo(false)}
+          key={node.id}
         />
-      )}
-    </div>
+      ))}
+      <InfoWindow visible={showInfo} marker={activeMarker}>
+        <>{showInfo && <NodeInfo info={infoData} />}</>
+      </InfoWindow>
+    </Map>
   );
 };
 

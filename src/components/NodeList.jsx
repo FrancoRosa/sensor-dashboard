@@ -1,20 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const NodeList = ({ nodes, handleListClick, active, setActive }) => {
   return (
-    <aside
-      className="menu"
-      style={{
-        width: "15em",
-        height: "calc(100vh - 3.5em)",
-        backgroundColor: "rgb(40 47 47 / 94%)",
-        position: "absolute",
-        top: "0.25em",
-        left: "0.25em",
-        overflow: "scroll",
-        borderRadius: "5px",
-      }}
-    >
-      <p className="menu-label m-3 has-text-link">List of Nodes</p>
+    <aside className="column is-one-fifth card">
+      <p className="menu-label m-3 has-text-link">Device List</p>
       <ul className="menu-list">
         {nodes.map((node, i) => (
           <li

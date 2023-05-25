@@ -1,17 +1,24 @@
-import { Route, Switch } from "react-router-dom";
-// import HomeNavigation from "./HomeNavigation";
-import NewNode from "./NewNode";
-import Nodes from "./Nodes";
-// import NodeDetails from "./NodeDetails";
+import NodeMap from "./NodeMap";
 import MainLabel from "./MainLabel";
 import { useEffect, useState } from "react";
-import { deviceSubscription, removeSub } from "../js/api";
+import { deviceSubscription, getDevices, removeSub } from "../js/api";
 import { useStoreActions, useStoreState } from "easy-peasy";
+import NodeDetails from "./NodeDetails";
+import NodeList from "./NodeList";
 
 const Home = () => {
   const [payload, setPayload] = useState();
   const nodes = useStoreState((state) => state.nodes);
   const setNodes = useStoreActions((actions) => actions.setNodes);
+  const [devices, setDevices] = useState([]);
+  const [device, setDevice] = useState({});
+  const [active, setActive] = useState({});
+  const handleListClick = () => {
+    console.log("listClick");
+  };
+  const handleDeleteNode = () => {
+    console.log("nodeDelete");
+  };
 
   useEffect(() => {
     if (payload) {
@@ -22,19 +29,28 @@ const Home = () => {
   }, [payload]);
 
   useEffect(() => {
+    getDevices().then((res) => setDevices(res.data));
     const sub = deviceSubscription(setPayload);
     return () => removeSub(sub);
   }, []);
 
   return (
-    <div className="container" style={{ width: "100vw" }}>
+    <>
       <MainLabel />
-      <Switch>
-        <Route path="/home/nodes" component={Nodes} />
-        <Route path="/home/new_node" component={NewNode} />
-        <Route path="/home" component={Nodes} />
-      </Switch>
-    </div>
+      <div
+        className="container columns"
+        style={{ width: "100vw", height: "90vh", margin: "1em", gap: "0.5em" }}
+      >
+        <NodeList
+          nodes={devices}
+          handleListClick={handleListClick}
+          active={active}
+          setActive={setActive}
+        />
+        <NodeDetails handleDeleteNode={handleDeleteNode} />
+        <NodeMap devices={devices} />
+      </div>
+    </>
   );
 };
 export default Home;

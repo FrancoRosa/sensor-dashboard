@@ -77,31 +77,28 @@ const NodeDetails = ({ handleDeleteNode }) => {
     }, 1000);
   };
 
-  useEffect(() => {
-    if (data) {
-      setInfo(data.new);
-      if (data.new.device_id === node.id) {
-        setRecords((r) => {
-          r.shift();
-          return [...r, data.new];
-        });
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setInfo(data.new);
+  //     if (data.new.device_id === node.id) {
+  //       setRecords((r) => {
+  //         r.shift();
+  //         return [...r, data.new];
+  //       });
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [data]);
 
-  useEffect(() => {
-    getMeasurements(node.id).then(({ data }) => setRecords(data.reverse()));
-    const subs = recordSubscription(setData);
-    return () => removeSub(subs);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getMeasurements(node.id).then(({ data }) => setRecords(data.reverse()));
+  //   const subs = recordSubscription(setData);
+  //   return () => removeSub(subs);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
-    <div
-      className="card animate__animated animate__fadeInRight"
-      style={{ overflow: "scroll", width: "80vw" }}
-    >
+    <div className="column is-two-fifths card">
       <div className="card-content">
         <div className="columns">
           <div className="column">
@@ -135,14 +132,6 @@ const NodeDetails = ({ handleDeleteNode }) => {
         >
           Last update: {new Date(info.updated_at).toLocaleString("SV")}
         </p>
-      </div>
-
-      <div className="card-footer">
-        <div className="card-footer-item">
-          <button onClick={fadeOut} className="button is-link is-outlined">
-            Back
-          </button>
-        </div>
       </div>
     </div>
   );
