@@ -1,12 +1,10 @@
 const NodeInfo = ({ info }) => {
   const { name, lat, lng, pm1, pm10, temp, hum, updated_at } = info;
-  console.log("########");
-  console.log(info);
-  console.log("########");
+
   return (
     <div className="has-text-black">
       <div
-        className="is-flex is-justify-content-space-around"
+        className="is-flex is-justify-content-space-between"
         style={{ gap: "2em" }}
       >
         <h1>

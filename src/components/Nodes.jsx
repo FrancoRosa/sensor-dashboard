@@ -5,6 +5,7 @@ import NodeDetails from "./NodeDetails";
 import NodeInfo from "./NodeInfo";
 import NodeList from "./NodeList";
 import { getDevices } from "../js/api";
+import { isRecent } from "../js/helpers";
 
 const Nodes = ({ google }) => {
   const nodes = useStoreState((state) => state.nodes);
@@ -23,13 +24,8 @@ const Nodes = ({ google }) => {
   const [activeMarker, setActiveMarker] = useState(null);
 
   const svgMarker = (node) => {
-    const timestamp = Date.now();
-    let color;
-    if (timestamp > Date.now() / 1000 - 24 * 60 * 60) {
-      color = "green";
-    } else {
-      color = "red";
-    }
+    const { updated_at } = node;
+    const color = isRecent(updated_at) ? "green" : "red";
     return {
       path: google.maps.SymbolPath.CIRCLE,
       fillColor: color,
@@ -44,7 +40,7 @@ const Nodes = ({ google }) => {
     setActiveMarker(marker);
     const targetNode = nodes.find(
       (n) => n.lat === props.position.lat && n.lng === props.position.lng
-    )
+    );
     setInfoData(targetNode);
     setActive(targetNode);
     setShowInfo(true);

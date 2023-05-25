@@ -9,9 +9,9 @@ const store = createStore(model);
 const App = () => {
   return (
     <StoreProvider store={store}>
-      {/* <Redirect exact from="/" to="/login" /> */}
+      <Redirect exact from="/" to="/login" />
       <Switch>
-        {/* <Route path="/login" component={Login} /> */}
+        <Route path="/login" component={Login} />
         <Route path="/home" component={Home} />
       </Switch>
     </StoreProvider>

@@ -31,16 +31,22 @@ export const progress = (arr) => {
 
 export const toDateTime = (timestamp) => {
   const time = new Date(timestamp * 1000);
-  return time.toLocaleString("sv-SE");
+  return time.toLocaleString("SV");
 };
 
 export const toDate = (timestamp) => {
   const time = new Date(timestamp * 1000);
-  return time.toLocaleString("sv-SE").split(" ")[0];
+  return time.toLocaleString("SV").split(" ")[0];
 };
 
 export const arrToCSV = (arr) => {
   const lines = arr.map((line) => line.join(","));
   const result = lines.join("\n");
   return result ? result : "No data available";
+};
+
+export const isRecent = (timestamp) => {
+  const msInDay = 24 * 60 * 60 * 1000;
+  const inputDate = new Date(timestamp);
+  return inputDate.getTime() > Date.now() - msInDay;
 };

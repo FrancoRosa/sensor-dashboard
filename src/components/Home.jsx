@@ -4,21 +4,26 @@ import NewNode from "./NewNode";
 import Nodes from "./Nodes";
 // import NodeDetails from "./NodeDetails";
 import MainLabel from "./MainLabel";
-import { supabase } from "../js/supabase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { deviceSubscription, removeSub } from "../js/api";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 const Home = () => {
+  const [payload, setPayload] = useState();
+  const nodes = useStoreState((state) => state.nodes);
+  const setNodes = useStoreActions((actions) => actions.setNodes);
+
   useEffect(() => {
-    const devices = supabase
-      .channel("custom-update-channel")
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "devices" },
-        (payload) => {
-          console.log("Change received!", payload);
-        }
-      )
-      .subscribe();
+    if (payload) {
+      console.log(payload.new);
+      setNodes(nodes.map((n) => (n.id === payload.new.id ? payload.new : n)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [payload]);
+
+  useEffect(() => {
+    const sub = deviceSubscription(setPayload);
+    return () => removeSub(sub);
   }, []);
 
   return (

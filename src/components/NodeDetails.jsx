@@ -1,12 +1,74 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { toDateTime } from "../js/helpers";
+import { useEffect, useState } from "react";
+import { getMeasurements, recordSubscription, removeSub } from "../js/api";
+import { isRecent } from "../js/helpers";
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  PointElement,
+  LinearScale,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const NodeDetails = ({ handleDeleteNode }) => {
   const node = useStoreState((state) => state.node);
+  const [info, setInfo] = useState(node);
   const setShowNodeDetails = useStoreActions(
     (actions) => actions.setShowNodeDetails
   );
-  const { id, name, lat, lng, timestamp = Date.now() } = node;
+  const [records, setRecords] = useState([]);
+  const [data, setData] = useState();
+
+  const plotOptions = {
+    interaction: {
+      intersect: false,
+      mode: "index",
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+      },
+    },
+  };
+
+  const temperature = {
+    labels: records.map((d) => new Date(d.updated_at).toLocaleTimeString("SV")),
+    datasets: [
+      {
+        label: "Temperature",
+        data: records.map((d) => d.temp),
+        borderColor: "#1abc9c",
+        backgroundColor: "#1abc9c 50%",
+      },
+      {
+        label: "Humidity",
+        data: records.map((d) => d.hum),
+        borderColor: "#FFA500",
+        backgroundColor: "#FFA500 50%",
+      },
+    ],
+  };
 
   const fadeOut = () => {
     document.querySelector(".card").classList.add("animate__fadeOutRight");
@@ -15,37 +77,63 @@ const NodeDetails = ({ handleDeleteNode }) => {
     }, 1000);
   };
 
-  const isRecent = (timestamp) => {
-    const secondsInDay = 24 * 60 * 60;
-    return timestamp > Date.now() / 1000 - secondsInDay;
-  };
+  useEffect(() => {
+    if (data) {
+      setInfo(data.new);
+      if (data.new.device_id === node.id) {
+        setRecords((r) => {
+          r.shift();
+          return [...r, data.new];
+        });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  useEffect(() => {
+    getMeasurements(node.id).then(({ data }) => setRecords(data.reverse()));
+    const subs = recordSubscription(setData);
+    return () => removeSub(subs);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div
       className="card animate__animated animate__fadeInRight"
-      style={{ overflow: "scroll" }}
+      style={{ overflow: "scroll", width: "80vw" }}
     >
       <div className="card-content">
         <div className="columns">
           <div className="column">
             <p>
-              <span className="has-text-weight-semibold">Device Name: </span>
-              {name}
+              <span className="has-text-weight-semibold">{info.name}</span>
             </p>
           </div>
         </div>
         <p className="help is-link" style={{ textAlign: "right" }}>
-          Coordinates: {parseFloat(lat).toFixed(5)},{" "}
-          {parseFloat(lng).toFixed(5)}
+          Temperature: {info.temp} °C
         </p>
         <p className="help is-link" style={{ textAlign: "right" }}>
-          RPI ID: {id}
+          Humidity: {info.hum} %
+        </p>
+        <Line options={plotOptions} data={temperature} />
+
+        <p className="help is-link" style={{ textAlign: "right" }}>
+          Latitude: {info.lat}
+        </p>
+        <p className="help is-link" style={{ textAlign: "right" }}>
+          Longitude: {info.lng}
+        </p>
+        <p className="help is-link" style={{ textAlign: "right" }}>
+          Device id: {info.id}
         </p>
         <p
-          className={`help ${isRecent(timestamp) ? "is-link" : "is-danger"}`}
+          className={`help ${
+            isRecent(info.updated_at) ? "is-link" : "is-danger"
+          }`}
           style={{ textAlign: "right" }}
         >
-          Last update: {toDateTime(timestamp)}
+          Last update: {new Date(info.updated_at).toLocaleString("SV")}
         </p>
       </div>
 
