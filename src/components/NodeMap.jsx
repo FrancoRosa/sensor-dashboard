@@ -1,25 +1,14 @@
-import { useStoreActions, useStoreState } from "easy-peasy";
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import { useEffect, useState } from "react";
 import NodeInfo from "./NodeInfo";
-import { getDevices } from "../js/api";
 import { isRecent } from "../js/helpers";
 
-const Nodes = ({ google }) => {
-  const nodes = useStoreState((state) => state.nodes);
-  const setNode = useStoreActions((actions) => actions.setNode);
-  const setNodes = useStoreActions((actions) => actions.setNodes);
+const Nodes = ({ google, devices, setActive, active }) => {
   const [infoData, setInfoData] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
-  const [showList, setShowList] = useState(false);
-  const [active, setActive] = useState({ id: 1 });
-  const [center, setCenter] = useState({});
+  const [center, setCenter] = useState(active);
   const [mapWidth, setMapWidth] = useState(window.innerWidth > 768 ? 35 : 95);
 
-  const showNodeDetails = useStoreState((state) => state.showNodeDetails);
-  const setShowNodeDetails = useStoreActions(
-    (actions) => actions.setShowNodeDetails
-  );
   const [activeMarker, setActiveMarker] = useState(null);
 
   const svgMarker = (node) => {
@@ -36,38 +25,26 @@ const Nodes = ({ google }) => {
   };
 
   const onSelectedMarker = (props, marker, e) => {
+    console.log("marker selected");
+    console.log(props);
     setActiveMarker(marker);
-    const targetNode = nodes.find(
-      (n) => n.lat === props.position.lat && n.lng === props.position.lng
-    );
+    const targetNode = devices.find((n) => n.id === props.id);
     setInfoData(targetNode);
-    setActive(targetNode);
+    setActive(props.id);
     setShowInfo(true);
-  };
-
-  const handleListClick = (node) => {
-    setCenter(node);
-    setInfoData(node);
-    setShowInfo(true);
-    setActive(node);
-  };
-
-  const handleDeleteNode = (node) => {
-    console.log("... deleting:", node);
   };
 
   useEffect(() => {
-    getDevices().then(({ data }) => {
-      console.log(data);
-      setNodes(data);
-    });
+    setCenter(devices.find((d) => d.id === active));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active]);
+
+  useEffect(() => {
     window.matchMedia("(min-width: 768px)").addEventListener("change", (e) => {
       if (e.matches) {
         setMapWidth(40);
-        console.log(40);
       } else {
         setMapWidth(100);
-        console.log(100);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,12 +53,12 @@ const Nodes = ({ google }) => {
   return (
     <Map
       google={google}
-      initialCenter={nodes[0].info}
+      initialCenter={devices[0] || { lat: 0, lng: 0 }}
       center={center}
       zoom={9}
       style={{ width: `${mapWidth}vw`, height: "80vh" }}
     >
-      {nodes.map((node) => (
+      {devices.map((node) => (
         <Marker
           position={{ lat: node.lat, lng: node.lng }}
           name={node.name}
@@ -90,6 +67,7 @@ const Nodes = ({ google }) => {
           onClick={onSelectedMarker}
           onClose={() => setShowInfo(false)}
           key={node.id}
+          id={node.id}
         />
       ))}
       <InfoWindow visible={showInfo} marker={activeMarker}>
