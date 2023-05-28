@@ -1,6 +1,4 @@
-import { useStoreActions, useStoreState } from "easy-peasy";
 import { useEffect, useState } from "react";
-import { getMeasurements, recordSubscription, removeSub } from "../js/api";
 import { isRecent } from "../js/helpers";
 
 import {
@@ -14,7 +12,6 @@ import {
   Legend,
   BarElement,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -99,6 +96,7 @@ const NodeDetails = ({ devices, active }) => {
           >
             Last update: {new Date(device.updated_at).toLocaleString("SV")}
           </p>
+          <p>Credits: hi!</p>
         </div>
       )}
     </div>
