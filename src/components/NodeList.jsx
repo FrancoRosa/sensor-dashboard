@@ -1,27 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-const NodeList = ({ nodes, handleListClick, active, setActive }) => {
+const NodeList = ({ devices, active, setActive }) => {
   return (
-    <aside
-      className="menu"
-      style={{
-        width: "15em",
-        height: "calc(100vh - 3.5em)",
-        backgroundColor: "rgb(40 47 47 / 94%)",
-        position: "absolute",
-        top: "0.25em",
-        left: "0.25em",
-        overflow: "scroll",
-        borderRadius: "5px",
-      }}
-    >
-      <p className="menu-label m-3 has-text-link">List of Nodes</p>
+    <aside className="column is-one-fifth card">
+      <p className="menu-label m-3 has-text-link">Device List</p>
       <ul className="menu-list">
-        {nodes.map((node, i) => (
+        {devices.map((node, i) => (
           <li
             key={i}
             onClick={() => {
-              setActive(node);
-              handleListClick(node);
+              console.log("active:", node.id);
+              setActive(node.id);
             }}
             style={{
               textOverflow: "ellipsis",
@@ -29,9 +17,14 @@ const NodeList = ({ nodes, handleListClick, active, setActive }) => {
             }}
             className="m-2"
           >
-            <a href="#" className={node.id === active.id && "is-active"}>
+            <button
+              style={{ width: "100%" }}
+              className={`button is-success ${
+                node.id !== active && "is-outlined"
+              }`}
+            >
               {node.name}
-            </a>
+            </button>
           </li>
         ))}
       </ul>

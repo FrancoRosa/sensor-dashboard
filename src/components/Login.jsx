@@ -1,19 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "../assets/icon.png";
 import { getDBLogin } from "../js/api";
-import { useStoreActions, useStoreState } from "easy-peasy";
-import { useHistory } from "react-router";
 
-const Login = () => {
-  const setUser = useStoreActions((actions) => actions.setUser);
-  const authenticated = useStoreState((state) => state.authenticated);
-  const setAuthenticated = useStoreActions(
-    (actions) => actions.setAuthenticated
-  );
-
+const Login = ({ setAuthenticated }) => {
   const [message, setMessage] = useState({ style: "", text: "" });
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
 
   const login = (e) => {
     setLoading(true);
@@ -25,14 +16,16 @@ const Login = () => {
     getDBLogin(user, password).then(({ data }) => {
       if (data.length > 0) {
         const userData = data[0];
-        setAuthenticated(true);
-        setUser(userData);
-        setMessage({ style: "is-success", text: `... Welcome ${userData.name}!` });
+        setMessage({
+          style: "is-success",
+          text: `... Welcome ${userData.name}!`,
+        });
+        setTimeout(() => {
+          setAuthenticated(true);
+        }, 1000);
       } else {
         setLoading(false);
-
         setAuthenticated(false);
-        setUser({});
         setMessage({
           style: "is-danger",
           text: "User or password error, try again",
@@ -40,15 +33,6 @@ const Login = () => {
       }
     });
   };
-
-  useEffect(() => {
-    if (authenticated === true) {
-      setTimeout(() => {
-        history.push("/home");
-      }, 1000);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authenticated]);
 
   return (
     <div className="is-flex is-flex-centered login">
