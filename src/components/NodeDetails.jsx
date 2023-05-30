@@ -1,29 +1,6 @@
 import { useEffect, useState } from "react";
 import { isRecent } from "../js/helpers";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  PointElement,
-  LinearScale,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
-} from "chart.js";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
 const NodeDetails = ({ devices, active }) => {
   const [device, setDevice] = useState();
 
@@ -96,7 +73,6 @@ const NodeDetails = ({ devices, active }) => {
           >
             Last update: {new Date(device.updated_at).toLocaleString("SV")}
           </p>
-          <p>Credits: hi!</p>
         </div>
       )}
     </div>
