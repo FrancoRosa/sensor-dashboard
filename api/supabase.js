@@ -76,7 +76,7 @@ const payloadToObject = (payload) => {
       gas_op2_w: validate(values[positions[len].gas_op2_w]),
       gas_op2_r: validate(values[positions[len].gas_op2_r]),
       noise: validate(values[positions[len].noise]),
-      updated_at: new Date(parseInt(values[positions[len].timestamp]) * 1000),
+      updated_at: new Date(),
     },
   };
   console.log(result);
