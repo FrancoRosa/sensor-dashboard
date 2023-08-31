@@ -3,7 +3,13 @@
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
-const { insertMeasurement, updateDevice, timestamp } = require("./supabase");
+const {
+  insertMeasurement,
+  updateDevice,
+  timestamp,
+  getParticleId,
+} = require("./supabase");
+const { deviceCheck } = require("./trigger");
 
 const app = express();
 app.use(cors());
@@ -23,6 +29,13 @@ app.post("/", async (req, res) => {
 app.get("/", (req, res) => {
   const message = "particle webhook waiting for events";
   res.status(200).json({ message });
+});
+
+app.post("/check", async (req, res) => {
+  const particleId = await getParticleId(req.body.id);
+  const { particle_id } = particleId.data[0];
+  const response = await deviceCheck(particle_id);
+  res.status(200).json(response);
 });
 
 const port = 8765;

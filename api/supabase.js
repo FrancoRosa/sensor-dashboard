@@ -86,10 +86,15 @@ const insertMeasurement = async (payload) => {
   return await supabase.from("measurements").insert({ particle_id, ...data });
 };
 
+const getParticleId = async (id) => {
+  return await supabase.from("devices").select("particle_id").eq("id", id);
+};
+
 const timestamp = () => {
   return new Date().toLocaleString("sv");
 };
 
 exports.insertMeasurement = insertMeasurement;
 exports.updateDevice = updateDevice;
+exports.getParticleId = getParticleId;
 exports.timestamp = timestamp;
