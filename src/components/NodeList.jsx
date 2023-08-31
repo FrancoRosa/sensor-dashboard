@@ -17,7 +17,9 @@ const NodeList = ({ devices, active, setActive }) => {
             className="m-2"
           >
             <button
-              style={{ width: "100%" }}
+              style={{
+                width: "100%",
+              }}
               className={`button is-success ${
                 node.id !== active && "is-outlined"
               }`}

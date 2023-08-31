@@ -1,14 +1,21 @@
 import { supabase } from "../js/supabase";
 
-export const getDeviceCheck = async (id) => {
-  const url = "https://mandor.pe:8766/check";
-  const response = await fetch(url, {
+export const getDeviceCheck = async (particle_id) => {
+  const apiUrl =
+    "https://oghvngfrgyvomtcawowg.supabase.co/functions/v1/check-device";
+  const accessToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9naHZuZ2ZyZ3l2b210Y2F3b3dnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQyNDAzNDMsImV4cCI6MTk5OTgxNjM0M30.88or3bhFkeU3r1B3PqItgBTDUVARDFmLmxDMi9oHBWc";
+
+  const config = {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id }),
-  });
+    body: JSON.stringify({ particle_id }),
+  };
+
+  let response = await fetch(apiUrl, config);
   return await response.json();
 };
 

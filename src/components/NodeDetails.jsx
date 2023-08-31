@@ -10,7 +10,7 @@ const NodeDetails = ({ devices, active }) => {
   const handleCheck = () => {
     setStatus({ style: "", text: "" });
     setLoading(true);
-    getDeviceCheck(device.id)
+    getDeviceCheck(device.particle_id)
       .then((res) => {
         console.log(res);
         if ("error" in res) {
