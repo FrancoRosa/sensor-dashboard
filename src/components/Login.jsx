@@ -94,7 +94,7 @@ const Login = ({ setAuthenticated }) => {
             >
               Log in
             </button>
-            <p class={`help ${message.style}`}>{message.text}</p>
+            <p className={`help ${message.style}`}>{message.text}</p>
           </div>
         </div>
       </form>

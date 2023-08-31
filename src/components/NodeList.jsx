@@ -8,7 +8,6 @@ const NodeList = ({ devices, active, setActive }) => {
           <li
             key={i}
             onClick={() => {
-              console.log("active:", node.id);
               setActive(node.id);
             }}
             style={{

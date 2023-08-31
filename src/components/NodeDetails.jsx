@@ -1,12 +1,37 @@
 import { useEffect, useState } from "react";
 import { isRecent } from "../js/helpers";
+import { getDeviceCheck } from "../js/api";
 
 const NodeDetails = ({ devices, active }) => {
   const [device, setDevice] = useState();
+  const [status, setStatus] = useState({ style: "", text: "" });
+  const [loading, setLoading] = useState(false);
+
+  const handleCheck = () => {
+    setStatus({ style: "", text: "" });
+    setLoading(true);
+    getDeviceCheck(device.id)
+      .then((res) => {
+        console.log(res);
+        if ("error" in res) {
+          setStatus({ style: "has-text-danger", text: "Offline" });
+        } else {
+          setStatus({ style: "has-text-success", text: "Online" });
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setStatus({ style: "has-text-warning", text: "Particle server issue" });
+
+        console.log(err.response.data);
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     const target = devices.find((d) => d.id === active);
     setDevice(target);
+    setStatus({ style: "", text: "" });
   }, [devices, active]);
 
   return (
@@ -73,6 +98,22 @@ const NodeDetails = ({ devices, active }) => {
           >
             Last update: {new Date(device.updated_at).toLocaleString("SV")}
           </p>
+
+          <div className="is-flex is-flex-centered is-flex-direction-column m-4">
+            <button
+              disabled={loading}
+              onClick={handleCheck}
+              className={`button is-outlined ${loading && "is-loading"}`}
+            >
+              Check device
+            </button>
+            <p
+              className={`has-text-link m-2 ${status.style}`}
+              style={{ textAlign: "right" }}
+            >
+              {status.text}
+            </p>
+          </div>
         </div>
       )}
     </div>

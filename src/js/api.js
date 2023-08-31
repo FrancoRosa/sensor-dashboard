@@ -1,5 +1,17 @@
 import { supabase } from "../js/supabase";
 
+export const getDeviceCheck = async (id) => {
+  const url = "http://localhost:8765/check";
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id }),
+  });
+  return await response.json();
+};
+
 export const getDBLogin = async (user, pass) => {
   return await supabase
     .from("users")
