@@ -1,8 +1,15 @@
 "use strict";
 
+const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
+const https = require("https");
+
+const privateKey = fs.readFileSync("/home/fx/self.key", "utf8");
+const certificate = fs.readFileSync("/home/fx/self.crt", "utf8");
+const credentials = { key: privateKey, cert: certificate };
+
 const {
   insertMeasurement,
   updateDevice,
@@ -16,6 +23,7 @@ app.use(cors());
 app.use(express.json());
 
 const server = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
 
 app.post("/", async (req, res) => {
   const { data } = req.body;
@@ -39,4 +47,10 @@ app.post("/check", async (req, res) => {
 });
 
 const port = 8765;
-server.listen(port, () => console.log(timestamp(), "... listening on", port));
+const ports = 8766;
+server.listen(port, () =>
+  console.log(timestamp(), "... listening http on", port)
+);
+httpsServer.listen(ports, () =>
+  console.log(timestamp(), "... listening https on", ports)
+);

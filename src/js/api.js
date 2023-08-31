@@ -1,7 +1,7 @@
 import { supabase } from "../js/supabase";
 
 export const getDeviceCheck = async (id) => {
-  const url = "https://mandor.pe:8765/check";
+  const url = "http://mandor.pe:8765/check";
   const response = await fetch(url, {
     method: "POST",
     headers: {
