@@ -22,8 +22,7 @@ const NodeDetails = ({ devices, active }) => {
       })
       .catch((err) => {
         setStatus({ style: "has-text-warning", text: "Particle server issue" });
-
-        console.log(err.response.data);
+        console.log(err);
         setLoading(false);
       });
   };
