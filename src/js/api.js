@@ -9,7 +9,10 @@ export const getDBLogin = async (user, pass) => {
 };
 
 export const getDevices = async () => {
-  return await supabase.from("devices").select("*");
+  return await supabase
+    .from("devices")
+    .select("*")
+    .order("name", { ascending: true });
 };
 
 export const getMeasurements = async (id) => {
